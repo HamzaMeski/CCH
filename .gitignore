@@ -1,0 +1,6 @@
+.gitignore
+.idea
+.smarttomcat
+target
+conf
+logs
