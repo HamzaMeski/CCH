@@ -12,17 +12,30 @@
     <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
     <init-param>
       <param-name>contextConfigLocation</param-name>
-      <param-value>
-        /WEB-INF/spring-mvc-config.xml
-        com.cycloclubhorizon.config
-      </param-value>
+      <param-value>/WEB-INF/spring-mvc-config.xml</param-value>
     </init-param>
     <load-on-startup>1</load-on-startup>
   </servlet>
 
   <servlet-mapping>
       <servlet-name>dispatcher</servlet-name>
-      <url-pattern>/api/v1/*</url-pattern>
+      <url-pattern>/</url-pattern>
   </servlet-mapping>
+
+  <context-param>
+    <param-name>contextClass</param-name>
+    <param-value>
+      org.springframework.web.context.support.AnnotationConfigWebApplicationContext
+    </param-value>
+  </context-param>
+
+  <context-param>
+    <param-name>contextConfigLocation</param-name>
+    <param-value>com.cycloclubhorizon.config</param-value>
+  </context-param>
+
+  <listener>
+    <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+  </listener>
 
 </web-app>
