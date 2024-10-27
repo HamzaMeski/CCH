@@ -2,6 +2,7 @@ package com.cycloclubhorizon.model;
 
 import jakarta.persistence.*;
 import java.util.Date;
+import java.util.Set;
 
 @Entity
 @Table(name = "cyclists")
@@ -20,6 +21,12 @@ public class Cyclist {
     private Date dateOfBirth;
 
     private String nationality;
+
+    @OneToMany(mappedBy = "cyclist")
+    private Set<GeneralResult> generalResults;
+
+    @OneToMany(mappedBy = "cyclist")
+    private Set<StageResult> stageResults;
 
     // Getters and setters
 
@@ -61,5 +68,21 @@ public class Cyclist {
 
     public void setNationality(String nationality) {
         this.nationality = nationality;
+    }
+
+    public Set<GeneralResult> getGeneralResults() {
+        return generalResults;
+    }
+
+    public void setGeneralResults(Set<GeneralResult> generalResults) {
+        this.generalResults = generalResults;
+    }
+
+    public Set<StageResult> getStageResults() {
+        return stageResults;
+    }
+
+    public void setStageResults(Set<StageResult> stageResults) {
+        this.stageResults = stageResults;
     }
 }
