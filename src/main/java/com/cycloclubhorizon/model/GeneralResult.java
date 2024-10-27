@@ -17,9 +17,9 @@ public class GeneralResult {
     @JoinColumn(name = "competition_id", nullable = false)
     private Competition competition;
 
-    private Long totalTime;
+    private Long totalTime = 0L;
 
-    private Integer rank;
+    private Integer rank = 0;
 
     // Getters and setters
     public Long getId() {

@@ -4,9 +4,8 @@ import com.cycloclubhorizon.dto.StageResultDTO;
 import com.cycloclubhorizon.model.Cyclist;
 import com.cycloclubhorizon.model.Stage;
 import com.cycloclubhorizon.model.StageResult;
-import com.cycloclubhorizon.repository.CyclistRepository;
-import com.cycloclubhorizon.repository.StageRepository;
-import com.cycloclubhorizon.repository.StageResultRepository;
+import com.cycloclubhorizon.model.GeneralResult;
+import com.cycloclubhorizon.repository.*;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,17 +21,23 @@ public class StageResultService {
     private final StageResultRepository stageResultRepository;
     private final CyclistRepository cyclistRepository;
     private final StageRepository stageRepository;
+    private final GeneralResultRepository generalResultRepository;
     private final ModelMapper modelMapper;
+    private final RankingService rankingService;
 
     @Autowired
     public StageResultService(StageResultRepository stageResultRepository,
-                              CyclistRepository cyclistRepository,
-                              StageRepository stageRepository,
-                              ModelMapper modelMapper) {
+                            CyclistRepository cyclistRepository,
+                            StageRepository stageRepository,
+                            GeneralResultRepository generalResultRepository,
+                            ModelMapper modelMapper,
+                            RankingService rankingService) {
         this.stageResultRepository = stageResultRepository;
         this.cyclistRepository = cyclistRepository;
         this.stageRepository = stageRepository;
+        this.generalResultRepository = generalResultRepository;
         this.modelMapper = modelMapper;
+        this.rankingService = rankingService;
     }
 
     public List<StageResultDTO> getAllStageResults() {
@@ -58,12 +63,34 @@ public class StageResultService {
         stageResult.setStage(stage);
 
         StageResult savedResult = stageResultRepository.save(stageResult);
+
+        // Create or update GeneralResult
+        GeneralResult generalResult = generalResultRepository
+                .findByCompetitionIdAndCyclistId(stage.getCompetition().getId(), cyclist.getId())
+                .orElse(new GeneralResult());
+
+        if (generalResult.getId() == null) {
+            generalResult.setCyclist(cyclist);
+            generalResult.setCompetition(stage.getCompetition());
+            generalResult.setTotalTime(0L);
+            generalResult.setRank(0);
+            generalResultRepository.save(generalResult);
+        }
+
+        // Update rankings for the competition
+        rankingService.updateRankingsForCompetition(stage.getCompetition().getId());
+
         return modelMapper.map(savedResult, StageResultDTO.class);
     }
 
     public void deleteStageResult(Long stageId, Long cyclistId) {
         StageResult result = stageResultRepository.findByStageIdAndCyclistId(stageId, cyclistId)
                 .orElseThrow(() -> new RuntimeException("Stage result not found for stage ID: " + stageId + " and cyclist ID: " + cyclistId));
+        
+        Stage stage = result.getStage();
         stageResultRepository.delete(result);
+        
+        // Update rankings after deletion
+        rankingService.updateRankingsForCompetition(stage.getCompetition().getId());
     }
 }
