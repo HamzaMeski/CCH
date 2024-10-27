@@ -66,4 +66,10 @@ public class GeneralResultService {
                 .orElseThrow(() -> new RuntimeException("General result not found for competition ID: " + competitionId + " and cyclist ID: " + cyclistId));
         generalResultRepository.delete(result);
     }
+
+    public GeneralResultDTO getWinnerForCompetition(Long competitionId) {
+        GeneralResult winner = generalResultRepository.findFirstByCompetitionIdOrderByRankAsc(competitionId)
+                .orElseThrow(() -> new RuntimeException("No results found for competition with id: " + competitionId));
+        return modelMapper.map(winner, GeneralResultDTO.class);
+    }
 }
