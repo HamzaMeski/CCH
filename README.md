@@ -22,7 +22,7 @@ A robust Spring REST API for managing cycling competitions, designed to handle r
 
 ## 🛠 Tech Stack
 
-- **Framework:** Spring Boot 3.x
+- **Framework:** Spring framework 
 - **Language:** Java 17
 - **Database:** PostgreSQL
 - **Build Tool:** Maven
@@ -34,20 +34,20 @@ A robust Spring REST API for managing cycling competitions, designed to handle r
 - Java 17 or higher
 - Maven 3.6+
 - PostgreSQL 12+
-- Your favorite IDE (We recommend IntelliJ IDEA)
+- Your favorite IDE (IntelliJ IDEA Recommended)
 
 ## 🚀 Getting Started
 
 1. **Clone the repository**
    ```bash
-   git clone https://github.com/yourusername/cycling-club-horizon.git
-   cd cycling-club-horizon
+   git clone https://github.com/HamzaMeski/CCH.git
+   cd CCH
    ```
 
 2. **Configure PostgreSQL**
    ```properties
    # src/main/resources/application.properties
-   spring.datasource.url=jdbc:postgresql://localhost:5432/cch_db
+   spring.datasource.url=jdbc:postgresql://localhost:5432/db_name
    spring.datasource.username=your_username
    spring.datasource.password=your_password
    ```
@@ -55,11 +55,6 @@ A robust Spring REST API for managing cycling competitions, designed to handle r
 3. **Build the project**
    ```bash
    mvn clean install
-   ```
-
-4. **Run the application**
-   ```bash
-   mvn spring-boot:run
    ```
 
 The API will be available at `http://localhost:8080/cch-api`
@@ -98,6 +93,4 @@ The API will be available at `http://localhost:8080/cch-api`
 - `GET /api/v1/general-results/{competitionId}/{cyclistId}` - Get specific general result
 - `GET /api/v1/general-results/winner/{competitionId}` - Get competition winner
 
-## 📊 Data Models
 
-### Competition
