@@ -26,7 +26,7 @@ public class RankingService {
 
     public void updateRankingsForCompetition(Long competitionId) {
         List<GeneralResult> results = generalResultRepository.findByCompetitionId(competitionId);
-        
+
         // Calculate total time for each cyclist
         for (GeneralResult result : results) {
             Long totalTime = calculateTotalTimeForCyclist(competitionId, result.getCyclist().getId());
@@ -40,7 +40,7 @@ public class RankingService {
         for (int i = 0; i < results.size(); i++) {
             results.get(i).setRank(i + 1);
         }
-        
+
         // Save updated results
         generalResultRepository.saveAll(results);
     }
