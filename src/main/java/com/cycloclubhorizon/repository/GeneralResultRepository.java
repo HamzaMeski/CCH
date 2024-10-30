@@ -12,4 +12,5 @@ public interface GeneralResultRepository extends JpaRepository<GeneralResult, Lo
     Optional<GeneralResult> findByCompetitionIdAndCyclistId(Long competitionId, Long cyclistId);
     List<GeneralResult> findByCompetitionId(Long competitionId);
     Optional<GeneralResult> findFirstByCompetitionIdOrderByRankAsc(Long competitionId);
+    List<GeneralResult> findByCyclistId(Long cyclistId);
 }
