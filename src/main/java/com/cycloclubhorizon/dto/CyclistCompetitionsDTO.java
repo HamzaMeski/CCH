@@ -38,4 +38,4 @@ public class CyclistCompetitionsDTO {
     public void setCompetitions(List<CompetitionSummaryDTO> competitions) {
         this.competitions = competitions;
     }
-} 
+}

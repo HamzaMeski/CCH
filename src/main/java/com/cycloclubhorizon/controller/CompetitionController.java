@@ -1,6 +1,7 @@
 package com.cycloclubhorizon.controller;
 
 import com.cycloclubhorizon.dto.CompetitionDTO;
+import com.cycloclubhorizon.dto.CompetitionDetailDTO;
 import com.cycloclubhorizon.service.CompetitionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -49,5 +50,21 @@ public class CompetitionController {
     public ResponseEntity<Void> deleteCompetition(@PathVariable Long id) {
         competitionService.deleteCompetition(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/details")
+    public ResponseEntity<List<CompetitionDetailDTO>> getAllCompetitionsWithDetails() {
+        List<CompetitionDetailDTO> competitions = competitionService.getAllCompetitionsWithDetails();
+        return ResponseEntity.ok(competitions);
+    }
+
+    @GetMapping("/{id}/details")
+    public ResponseEntity<CompetitionDetailDTO> getCompetitionWithDetails(@PathVariable Long id) {
+        try {
+            CompetitionDetailDTO competition = competitionService.getCompetitionWithDetails(id);
+            return ResponseEntity.ok(competition);
+        } catch (RuntimeException e) {
+            return ResponseEntity.notFound().build();
+        }
     }
 }
