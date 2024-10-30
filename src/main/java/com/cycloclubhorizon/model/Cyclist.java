@@ -28,6 +28,10 @@ public class Cyclist {
     @OneToMany(mappedBy = "cyclist")
     private Set<StageResult> stageResults;
 
+    @ManyToOne
+    @JoinColumn(name = "team_id")
+    private Team team;
+
     // Getters and setters
 
     public Long getId() {
@@ -84,5 +88,13 @@ public class Cyclist {
 
     public void setStageResults(Set<StageResult> stageResults) {
         this.stageResults = stageResults;
+    }
+
+    public Team getTeam() {
+        return team;
+    }
+
+    public void setTeam(Team team) {
+        this.team = team;
     }
 }
