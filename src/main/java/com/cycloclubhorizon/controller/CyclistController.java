@@ -2,6 +2,7 @@ package com.cycloclubhorizon.controller;
 
 import com.cycloclubhorizon.dto.CyclistDTO;
 import com.cycloclubhorizon.dto.CompetitionSummaryDTO;
+import com.cycloclubhorizon.dto.CyclistCompetitionsDTO;
 import com.cycloclubhorizon.service.CyclistService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -56,6 +57,16 @@ public class CyclistController {
         try {
             List<CompetitionSummaryDTO> competitions = cyclistService.getCyclistCompetitions(id);
             return ResponseEntity.ok(competitions);
+        } catch (RuntimeException e) {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    @GetMapping("/competitions")
+    public ResponseEntity<List<CyclistCompetitionsDTO>> getAllCyclistsCompetitions() {
+        try {
+            List<CyclistCompetitionsDTO> allCompetitions = cyclistService.getAllCyclistsCompetitions();
+            return ResponseEntity.ok(allCompetitions);
         } catch (RuntimeException e) {
             return ResponseEntity.notFound().build();
         }

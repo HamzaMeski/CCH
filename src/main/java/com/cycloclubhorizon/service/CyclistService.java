@@ -2,6 +2,7 @@ package com.cycloclubhorizon.service;
 
 import com.cycloclubhorizon.dto.CyclistDTO;
 import com.cycloclubhorizon.dto.CompetitionSummaryDTO;
+import com.cycloclubhorizon.dto.CyclistCompetitionsDTO;
 import com.cycloclubhorizon.model.Cyclist;
 import com.cycloclubhorizon.model.Competition;
 import com.cycloclubhorizon.model.GeneralResult;
@@ -95,6 +96,39 @@ public class CyclistService {
                     return dto;
                 })
                 .sorted(Comparator.comparing(CompetitionSummaryDTO::getDate).reversed())
+                .collect(Collectors.toList());
+    }
+
+    public List<CyclistCompetitionsDTO> getAllCyclistsCompetitions() {
+        List<Cyclist> cyclists = cyclistRepository.findAll();
+
+        return cyclists.stream()
+                .map(cyclist -> {
+                    List<GeneralResult> generalResults = generalResultRepository.findByCyclistId(cyclist.getId());
+
+                    List<CompetitionSummaryDTO> competitions = generalResults.stream()
+                            .map(result -> {
+                                CompetitionSummaryDTO dto = new CompetitionSummaryDTO();
+                                Competition competition = result.getCompetition();
+
+                                dto.setId(competition.getId());
+                                dto.setName(competition.getName());
+                                dto.setDate(competition.getDate());
+                                dto.setLocation(competition.getLocation());
+                                dto.setTotalTime(result.getTotalTime());
+                                dto.setRank(result.getRank());
+
+                                return dto;
+                            })
+                            .sorted(Comparator.comparing(CompetitionSummaryDTO::getDate).reversed())
+                            .collect(Collectors.toList());
+
+                    return new CyclistCompetitionsDTO(
+                            cyclist.getId(),
+                            cyclist.getFirstName() + " " + cyclist.getLastName(),
+                            competitions
+                    );
+                })
                 .collect(Collectors.toList());
     }
 }
