@@ -1,11 +1,14 @@
 package com.cycloclubhorizon.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import java.util.Date;
 import java.util.List;
 
 public class CompetitionDetailDTO {
     private Long id;
     private String name;
+    @JsonFormat(pattern = "dd-MM-yyyy")
     private Date date;
     private String location;
     private List<StageDTO> stages;

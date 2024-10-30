@@ -4,6 +4,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Past;
 import java.util.Date;
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 public class CyclistDTO {
     private Long id;
@@ -14,6 +15,7 @@ public class CyclistDTO {
     @NotBlank(message = "Last name is required")
     private String lastName;
 
+    @JsonFormat(pattern = "dd-MM-yyyy")
     @NotNull(message = "Date of birth is required")
     @Past(message = "Date of birth must be in the past")
     private Date dateOfBirth;

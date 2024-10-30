@@ -1,5 +1,6 @@
 package com.cycloclubhorizon.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import java.util.Date;
@@ -10,6 +11,7 @@ public class CompetitionDTO {
     @NotBlank(message = "Name is required")
     private String name;
 
+    @JsonFormat(pattern = "dd-MM-yyyy")
     @NotNull(message = "Date is required")
     private Date date;
 

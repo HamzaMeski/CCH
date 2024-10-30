@@ -1,10 +1,13 @@
 package com.cycloclubhorizon.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import java.util.Date;
 
 public class CompetitionSummaryDTO {
     private Long id;
     private String name;
+    @JsonFormat(pattern = "dd-MM-yyyy")
     private Date date;
     private String location;
     private Long totalTime;    // Cyclist's total time in this competition
